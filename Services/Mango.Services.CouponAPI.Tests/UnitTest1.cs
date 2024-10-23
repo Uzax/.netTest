@@ -30,6 +30,7 @@ namespace Mango.Services.CouponAPI.Tests
         public async void Test1()
         {
             
+            
             var expectedCoupon = new Coupon { CouponCode = "10", DiscountAmount = 20, CouponId = 0, MinAmount = 20 };
             var expectedCouponDTO = new CouponDto { CouponCode = "10", DiscountAmount = 20 };
             var expectedResponseDto = new ResponseDto{IsSuccess = true , Result = expectedCouponDTO , Message = ""};
