@@ -3,10 +3,10 @@ name: .NET Tests
 on:
   push:
     branches:
-      - main # Change this to the branch you want to trigger tests on
+      - main
   pull_request:
     branches:
-      - main # Change this as needed
+      - main
 
 jobs:
   build:
@@ -40,10 +40,10 @@ jobs:
         with:
           name: build-output
           path: |
-            **/bin/Release
-            **/obj/Release
+            **/bin/Release/
+            **/obj/Release/
 
-  Unit-Test:
+  test:
     runs-on: ubuntu-latest
     needs: build
 
