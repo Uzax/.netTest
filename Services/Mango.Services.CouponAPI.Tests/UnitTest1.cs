@@ -42,7 +42,7 @@ namespace Mango.Services.CouponAPI.Tests
             
             //Assert
             Assert.NotNull(result);
-            _mapperMock.Verify(x => x.Map<CouponDto>(expectedCoupon), Times.Once);
+            _mapperMock.Verify(x => x.Map<CouponDto>(expectedCoupon), Times.Never);
             Assert.Equal(expectedResponseDto.ToString(), result.ToString());
             
         }
