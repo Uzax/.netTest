@@ -10,6 +10,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("ApiSettings:JwtOptions"));
 builder.Services.AddIdentity<ApplicationUsers, IdentityRole>().AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
