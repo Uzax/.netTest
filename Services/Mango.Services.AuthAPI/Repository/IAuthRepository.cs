@@ -8,6 +8,10 @@ namespace Mango.Services.AuthAPI.Repository
     {
 
         Task<IdentityResult> createNewUser(ApplicationUsers user , string password);
+        
+        Task<ApplicationUsers> getUserByUsername(string username);
+        
+        Task<bool> checkUserPassword(ApplicationUsers user , string password);
 
     }
 }

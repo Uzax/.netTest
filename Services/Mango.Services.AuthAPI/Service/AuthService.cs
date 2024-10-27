@@ -13,12 +13,15 @@ namespace Mango.Services.AuthAPI.Service
        
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IAuthRepository _authRepository;
+        
+        private readonly IJwtTokenGenerator _jwtTokenGenerator;
 
         public AuthService(
-            RoleManager<IdentityRole> roleManager ,  IAuthRepository authRepository)
+            RoleManager<IdentityRole> roleManager ,  IAuthRepository authRepository , IJwtTokenGenerator jwtTokenGenerator)
         {
             _roleManager = roleManager;
             _authRepository = authRepository;
+            _jwtTokenGenerator = jwtTokenGenerator;
         }
         
         
@@ -58,9 +61,47 @@ namespace Mango.Services.AuthAPI.Service
             
         }
 
-        public Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto)
+        public async Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto)
         {
-            throw new NotImplementedException();
+           var user = await _authRepository.getUserByUsername(loginRequestDto.Username);
+           var isValid = await _authRepository.checkUserPassword(user, loginRequestDto.Password);
+
+           
+           // if user is Password is Wrong 
+           if (user == null || !isValid)
+           {
+               return new LoginResponseDto()
+               {
+                   User = null,
+                   Token = ""
+               };
+           }
+
+         
+              
+               // if user is Found . Genreate Token (TODO) 
+               
+               //Generate Token 
+               var token = _jwtTokenGenerator.GenerateToken(user);
+
+               UserDto userDto = new()
+               {
+                   ID = user.Id,
+                   Username = user.UserName,
+                   Name = user.name,
+                   PhoneNumber = user.PhoneNumber,
+               };
+
+               LoginResponseDto loginResponseDto = new()
+               {
+                   User = userDto,
+                   Token = token
+               };
+
+               return loginResponseDto; 
+
+
+
+           }
         }
     }
-}
