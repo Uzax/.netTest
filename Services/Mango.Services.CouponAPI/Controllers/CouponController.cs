@@ -1,7 +1,9 @@
 using Mango.Services.CouponAPI.Models;
 using Mango.Services.CouponAPI.Models.Dto;
 using Mango.Services.CouponAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace Mango.Services.CouponAPI.Controllers
 {
@@ -18,6 +20,7 @@ namespace Mango.Services.CouponAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult> GetAllCoupons()
         {
             var coupons = await _couponService.GetAllCouponsAsync();
