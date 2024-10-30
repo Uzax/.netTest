@@ -6,7 +6,7 @@ namespace Mango.Services.LoggingAPI.Models
     public class Logs
     {
         [Key] 
-        [Required]
+        
         public int Id { get; set; }
 
         [Required]
