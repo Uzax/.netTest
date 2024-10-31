@@ -39,9 +39,7 @@ namespace Mango.Services.LoggingAPI.Messging.Subsciber
             
             Console.WriteLine("--> Listenting on the Message Bus...");
             
-            
             _connection.ConnectionShutdownAsync += RabbitMQ_ConnectionShitdown;
-             
         }
 
         
