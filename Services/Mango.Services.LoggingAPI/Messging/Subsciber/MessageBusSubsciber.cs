@@ -41,7 +41,7 @@ namespace Mango.Services.LoggingAPI.Messging.Subsciber
             
             
             _connection.ConnectionShutdownAsync += RabbitMQ_ConnectionShitdown;
-            
+             
         }
 
         
