@@ -10,7 +10,10 @@ namespace Mango.Services.LoggingAPI.Repository
 
         Task addLog(Logs log);
 
-        Task deleteLog(Logs log); 
+        Task deleteLog(Logs log);
+
+
+        bool SaveChanges();
 
     }
 }

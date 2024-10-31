@@ -16,24 +16,30 @@ namespace Mango.Services.LoggingAPI.Service
         }
 
 
-        public Task addToLogsFromPublisher(string loginString)
+        public Task addToLogsFromPublisher(LoginFromAuthDto loginFromAuthDto)
         {
-            Console.WriteLine($"----Recived Message from MQ ---> {loginString}");
+
+            try
+            {
+                
+                var log = new Logs()
+                {
+                    fromService = loginFromAuthDto.serviceName,
+                    Message = loginFromAuthDto.Username + " --> " + loginFromAuthDto.Message + " --IP---> " + loginFromAuthDto.fromIP,
+                    timeStamp = loginFromAuthDto.Time
+                };
+
+                _logsRepository.addLog(log);
+                _logsRepository.SaveChanges();
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"--> Could not add Platform to DB {e.Message}");
+            }
+           
             
-            
-            // var loginFromAuthDto = new LoginFromAuthDto()
-            // {
-            //     Username = loginString
-            //     
-            // }
-            // var log = new Logs()
-            // {
-            //     fromService = loginFromAuthDto.serviceName,
-            //     Message = loginFromAuthDto.Username + " --> " + loginFromAuthDto.Message + " --IP---> " + loginFromAuthDto.fromIP,
-            //     timeStamp = loginFromAuthDto.Time
-            // };
-            
-            throw new NotImplementedException();
+           return Task.CompletedTask;
         }
     }
 }

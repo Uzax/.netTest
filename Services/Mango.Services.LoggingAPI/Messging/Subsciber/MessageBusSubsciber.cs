@@ -1,4 +1,6 @@
 using System.Text;
+using System.Text.Json;
+using Mango.Services.LoggingAPI.Models.Dto;
 using Mango.Services.LoggingAPI.Service;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -65,8 +67,9 @@ namespace Mango.Services.LoggingAPI.Messging.Subsciber
 
               using (var scope = _serviceScopeFactory.CreateScope())
               {
+                  var loginDto = JsonSerializer.Deserialize<LoginFromAuthDto>(notificationMessage);
                   var logService = scope.ServiceProvider.GetRequiredService<ILogService>();
-                  await logService.addToLogsFromPublisher(notificationMessage);
+                  await logService.addToLogsFromPublisher(loginDto);
               }
           };
           

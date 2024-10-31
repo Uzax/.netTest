@@ -5,7 +5,7 @@ namespace Mango.Services.LoggingAPI.Service{
     public interface ILogService
     {
 
-        Task addToLogsFromPublisher(string loginString);
+        Task addToLogsFromPublisher(LoginFromAuthDto loginFromAuthDto);
 
     }
 }
