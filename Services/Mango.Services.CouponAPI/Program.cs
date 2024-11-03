@@ -1,5 +1,6 @@
 using System.Text;
 using Mango.Services.CouponAPI.Data;
+using Mango.Services.CouponAPI.Extensions;
 using Mango.Services.CouponAPI.Repository;
 using Mango.Services.CouponAPI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -36,21 +37,22 @@ builder.Services.AddAutoMapper(typeof(MappingCoupons).Assembly);
 
 var JwtOptions = builder.Configuration.GetSection("ApiSettings:JwtOptions");
 
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = JwtOptions["Issuer"], // Use your actual issuer
-            ValidAudience = JwtOptions["Audience"], // Use your actual audience
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtOptions["Secret"])) // Use your secret key
-        };
-    });
+//
+// builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//     .AddJwtBearer(options =>
+//     {
+//         options.TokenValidationParameters = new TokenValidationParameters
+//         {
+//             ValidateIssuer = true,
+//             ValidateAudience = true,
+//             ValidateLifetime = true,
+//             ValidateIssuerSigningKey = true,
+//             ValidIssuer = JwtOptions["Issuer"], // Use your actual issuer
+//             ValidAudience = JwtOptions["Audience"], // Use your actual audience
+//             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtOptions["Secret"])) // Use your secret key
+//         };
+//     });
+builder.AddAppAuthetication();
 builder.Services.AddAuthorization();
 
 builder.Services.AddSwaggerGen(option =>
