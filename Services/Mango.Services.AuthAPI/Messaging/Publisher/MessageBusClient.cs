@@ -29,7 +29,7 @@ namespace Mango.Services.AuthAPI.Messaging.Publisher
 
                 _connection = factory.CreateConnectionAsync().GetAwaiter().GetResult();
                 _channel = _connection.CreateChannelAsync().GetAwaiter().GetResult(); 
-                _channel.ExchangeDeclareAsync(exchange: "trigger" , type: ExchangeType.Fanout).GetAwaiter().GetResult();
+                _channel.ExchangeDeclareAsync(exchange: "mangologs" , type: ExchangeType.Direct).GetAwaiter().GetResult();
 
                 _connection.ConnectionShutdownAsync +=  RabbitMQ_ConnectionShutDown; 
 
@@ -60,11 +60,11 @@ namespace Mango.Services.AuthAPI.Messaging.Publisher
         }
 
 
-        private void SendMessage(string message)
+        private void SendMessage(string message , string routingKey = "auth.logs")
         {
             var body = Encoding.UTF8.GetBytes(message);
             
-            _channel.BasicPublishAsync(exchange: "trigger" , routingKey: "" ,  body: body ).GetAwaiter().GetResult();
+            _channel.BasicPublishAsync(exchange: "mangologs" , routingKey: routingKey ,  body: body ).GetAwaiter().GetResult();
             
             Console.WriteLine($" ---> We Have Sent {message}");
             

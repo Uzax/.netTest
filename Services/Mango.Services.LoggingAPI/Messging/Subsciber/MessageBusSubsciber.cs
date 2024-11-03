@@ -33,9 +33,9 @@ namespace Mango.Services.LoggingAPI.Messging.Subsciber
 
             _connection = factory.CreateConnectionAsync().GetAwaiter().GetResult();
             _channel = _connection.CreateChannelAsync().GetAwaiter().GetResult();
-            _channel.ExchangeDeclareAsync(exchange: "trigger", type: ExchangeType.Fanout).GetAwaiter().GetResult();
+            _channel.ExchangeDeclareAsync(exchange: "mangologs", type: ExchangeType.Direct).GetAwaiter().GetResult();
             _queueName = _channel.QueueDeclareAsync().GetAwaiter().GetResult().QueueName;
-            _channel.QueueBindAsync(queue:_queueName , exchange:"trigger", routingKey:"").GetAwaiter().GetResult();
+            _channel.QueueBindAsync(queue:_queueName , exchange:"mangologs", routingKey:"auth.logs").GetAwaiter().GetResult();
             
             Console.WriteLine("--> Listenting on the Message Bus...");
             
