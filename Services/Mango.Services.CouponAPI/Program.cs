@@ -1,4 +1,5 @@
 using System.Text;
+using FluentValidation.AspNetCore;
 using Mango.Services.CouponAPI.Data;
 using Mango.Services.CouponAPI.Extensions;
 using Mango.Services.CouponAPI.Repository;
@@ -6,7 +7,9 @@ using Mango.Services.CouponAPI.Services;
 using Microsoft.EntityFrameworkCore;
 // using AutoMapper;
 using Mango.Services.CouponAPI.Mappers;
+using Mango.Services.CouponAPI.Models.Validators;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -27,15 +30,24 @@ builder.Services.AddSwaggerGen();
 // builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Controller and Services and Repository 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CouponDtoValidator>());
 builder.Services.AddScoped<ICouponRepository, CouponRepository>();
 builder.Services.AddScoped<ICouponService, CouponService>();
+
+
+//Handle Validation message Manually , to Returns the Response Dto 
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
+
 
 
 builder.Services.AddAutoMapper(typeof(MappingCoupons).Assembly);
 
 
-var JwtOptions = builder.Configuration.GetSection("ApiSettings:JwtOptions");
+// var JwtOptions = builder.Configuration.GetSection("ApiSettings:JwtOptions");
 
 //
 // builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

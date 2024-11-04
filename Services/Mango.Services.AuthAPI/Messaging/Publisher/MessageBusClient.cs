@@ -10,7 +10,6 @@ namespace Mango.Services.AuthAPI.Messaging.Publisher
     {
 
         private readonly IConfiguration _configuration;
-
         private readonly IConnection _connection;
         private readonly IChannel _channel;
         

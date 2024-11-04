@@ -44,6 +44,21 @@ namespace Mango.Services.CouponAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> AddCoupon(CouponDto couponDto)
         {
+
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage);
+                
+                ResponseDto res = new ResponseDto()
+                {
+                    IsSuccess = false,
+                    Message = "Error in Validation",
+                    Result = errors
+                };
+                return BadRequest(res);
+            }
+            
             var coupon = await _couponService.AddCouponAsync(couponDto);
             return Ok(coupon);
             

@@ -30,7 +30,7 @@ namespace Mango.Services.AuthAPI.Controller
             {
                 _response.IsSuccess = false;
                 _response.Message = errorMessage;
-                return BadRequest(errorMessage);
+                return Unauthorized(errorMessage);
                 
             }
            
@@ -49,7 +49,7 @@ namespace Mango.Services.AuthAPI.Controller
                 Username = loginRequestDto.Username
             }; 
             var loginResult = await _authService.Login(loginRequestDto);
-            if (loginResult.User == null)
+            if (loginResult.Token == "")
             {
 
                 try
@@ -66,7 +66,7 @@ namespace Mango.Services.AuthAPI.Controller
                 
                 _response.IsSuccess = false;
                 _response.Message = "Username or password is incorrect.";
-                return BadRequest(_response);
+                return Unauthorized(_response);
 
             }
            

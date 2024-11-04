@@ -72,7 +72,7 @@ namespace Mango.Services.AuthAPI.Service
            {
                return new LoginResponseDto()
                {
-                   User = null,
+                   // User = null,
                    Token = ""
                };
            }
@@ -94,7 +94,7 @@ namespace Mango.Services.AuthAPI.Service
 
                LoginResponseDto loginResponseDto = new()
                {
-                   User = userDto,
+                   
                    Token = token
                };
 
