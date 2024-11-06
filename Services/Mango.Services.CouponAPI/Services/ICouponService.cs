@@ -12,5 +12,11 @@ namespace Mango.Services.CouponAPI.Services
         Task<ResponseDto> GetCouponByCode(string CouponCode);
         
         Task <ResponseDto> AddCouponAsync(CouponDto couponDto);
+        
+        Task<ResponseDto> DeleteCouponbyIdAsync(int id);
+        Task<ResponseDto> DeleteCouponbyCodeAsync(string code);
+        
+        
+        Task<ResponseDto> UpdateCouponAsync(CouponDto couponDto , int id);
     }
 }

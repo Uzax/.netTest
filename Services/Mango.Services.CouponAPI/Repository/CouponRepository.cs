@@ -22,7 +22,8 @@ namespace Mango.Services.CouponAPI.Repository
 
         public async Task<Coupon> GetCouponByIdAsync(int couponId)
         {
-            return await _context.Coupons.FindAsync(couponId);
+            var coupon =  await _context.Coupons.Where(c => c.CouponId == couponId).FirstOrDefaultAsync();
+            return coupon;
            
         }
 
@@ -40,15 +41,34 @@ namespace Mango.Services.CouponAPI.Repository
            return Task.CompletedTask;
         }
 
-        public Task UpdateCouponAsync(Coupon coupon)
+        public async Task UpdateCouponAsync(Coupon coupon)
         {
-            throw new NotImplementedException();
+            var trackedEntity = await _context.Coupons.AsNoTracking()
+                .FirstOrDefaultAsync(c => c.CouponId == coupon.CouponId);
+                          
+            if (trackedEntity != null)
+            {
+                _context.Entry(trackedEntity).State = EntityState.Detached;
+            }
+    
+             _context.Coupons.Update(coupon);
+            await _context.SaveChangesAsync();
         }
 
-        public Task DeleteCouponAsync(Coupon coupon)
+        public Task DeleteCouponByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            _context.Coupons.Remove( _context.Coupons.Where(coupon => coupon.CouponId == id).FirstOrDefault());
+            _context.SaveChanges();
+            return Task.CompletedTask;
         }
+
+        public Task DeleteCouponByCodeAsync(string code)
+        {
+            _context.Coupons.Remove( _context.Coupons.Where(coupon => coupon.CouponCode == code).FirstOrDefault());
+            _context.SaveChanges();
+            return Task.CompletedTask;
+        }
+
 
         public Task<Coupon> GetLastElementAsync()
         {

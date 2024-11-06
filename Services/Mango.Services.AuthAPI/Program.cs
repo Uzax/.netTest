@@ -74,7 +74,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var serviceProvider = scope.ServiceProvider;
-    await DbInitialize.InitializeAsync(serviceProvider);  // Seed roles here
+    await SeedRoles.InitializeAsync(serviceProvider);  // Seed roles here
 }
 
 // Configure the HTTP request pipeline.

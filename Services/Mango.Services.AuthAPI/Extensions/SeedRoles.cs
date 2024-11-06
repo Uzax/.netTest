@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Mango.Services.AuthAPI.Extensions
 {
-    public class DbInitialize
+    public class SeedRoles
     {
         public static async Task InitializeAsync(IServiceProvider serviceProvider)
         {

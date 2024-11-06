@@ -15,7 +15,8 @@ public interface ICouponRepository
     
     Task UpdateCouponAsync(Coupon coupon);
     
-    Task DeleteCouponAsync(Coupon coupon);
+    Task DeleteCouponByIdAsync(int id);
+    Task DeleteCouponByCodeAsync(string code);
 
     Task<Coupon> GetLastElementAsync(); 
 }

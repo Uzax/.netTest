@@ -13,7 +13,8 @@ namespace Mango.Services.CouponAPI.Models.Validators
                 .Length(1,20).WithMessage("CouponCode must be between 1 and 20 characters.");
             
             
-            RuleFor(x => x.DiscountAmount).GreaterThan(0).WithMessage("Discount Amount must be greater than zero.");
+            RuleFor(x => x.DiscountAmount)
+                .GreaterThan(0).WithMessage("Discount Amount must be greater than zero.");
             
         }
     }
