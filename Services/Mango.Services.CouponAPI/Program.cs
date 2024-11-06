@@ -32,7 +32,8 @@ builder.Services.AddSwaggerGen();
 
 // Controller and Services and Repository 
 builder.Services.AddControllers();
-builder.Services.AddScoped<ICouponRepository, CouponRepository>();
+// builder.Services.AddScoped<ICouponRepository, CouponRepository>();
+builder.Services.AddTransient<IUnitOfWork , UnitOfWork>();
 builder.Services.AddScoped<ICouponService, CouponService>();
 
 
