@@ -44,8 +44,6 @@ namespace Mango.Services.AuthAPI.Service
 
                 if (reault.Succeeded)
                 {
-                    
-                    
                     return "";
                 }
                 else
@@ -79,10 +77,11 @@ namespace Mango.Services.AuthAPI.Service
 
          
               
-               // if user is Found . Genreate Token (TODO) 
+               // if user is Found . get the Roles 
+               var roles = await _authRepository.GetUserRoles(user);
                
                //Generate Token 
-               var token = _jwtTokenGenerator.GenerateToken(user);
+               var token = _jwtTokenGenerator.GenerateToken(user , roles);
 
                UserDto userDto = new()
                {
@@ -103,5 +102,23 @@ namespace Mango.Services.AuthAPI.Service
 
 
            }
+
+        public async Task<string> setRoles(string user, IList<string> roles )
+        {
+            var targetUser =await  _authRepository.getUserByUsername(user);
+            
+            if (targetUser != null)
+            {
+                foreach (var role in roles)
+                {
+                    await _authRepository.setRole(targetUser, role);
+                }
+                
+                return $"{user} Roles Updated Successfully"; 
+            }
+            
+            return null;
+
         }
+    }
     }

@@ -12,6 +12,10 @@ namespace Mango.Services.AuthAPI.Repository
         Task<ApplicationUsers> getUserByUsername(string username);
         
         Task<bool> checkUserPassword(ApplicationUsers user , string password);
+        
+        Task<IList<string>> GetUserRoles(ApplicationUsers user);
+        
+        Task setRole(ApplicationUsers user, string role);
 
     }
 }

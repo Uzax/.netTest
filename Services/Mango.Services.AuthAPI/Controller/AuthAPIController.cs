@@ -1,6 +1,7 @@
 using Mango.Services.AuthAPI.Messaging.Publisher;
 using Mango.Services.AuthAPI.Models.Dto;
 using Mango.Services.AuthAPI.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mango.Services.AuthAPI.Controller
@@ -86,5 +87,23 @@ namespace Mango.Services.AuthAPI.Controller
             return Ok(_response);
 
         }
+
+        
+        [HttpPost("setRole")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> setRoles([FromBody] RolesDto rolesDto)
+        {
+            var result = await _authService.setRoles(rolesDto.username , rolesDto.roles);
+            if (result != null)
+            {
+                _response.IsSuccess = true;
+                _response.Message = result;
+                return Ok(_response);
+            }
+            _response.IsSuccess = false;
+            _response.Message = result;
+            return BadRequest(_response); 
+        }
+        
     }
 }

@@ -36,5 +36,17 @@ namespace Mango.Services.AuthAPI.Repository
             
             return result;
         }
+
+        public async Task<IList<string>> GetUserRoles(ApplicationUsers user)
+        {
+            var roles = await _userManager.GetRolesAsync(user);
+            return roles; 
+        }
+
+        public async Task setRole(ApplicationUsers user, string role)
+        {
+            await _userManager.AddToRoleAsync(user, role);
+             
+        }
     }
 }
