@@ -41,9 +41,10 @@ namespace Mango.Services.AuthAPI.Service
             {
 
                 var reault =await  _authRepository.createNewUser(user , registrationRequestDto.Password);
-
+                
                 if (reault.Succeeded)
                 {
+                    await setRoles(user.UserName, ["User"]);
                     return "";
                 }
                 else

@@ -26,7 +26,6 @@ namespace Mango.Services.AuthAPI.Extensions
                 if (!await roleManager.RoleExistsAsync(role))
                 {
                     var roleResult = await roleManager.CreateAsync(new IdentityRole(role));
-
                     if (!roleResult.Succeeded)
                     {
                         throw new Exception($"Failed to create role {role}: " +
@@ -37,37 +36,35 @@ namespace Mango.Services.AuthAPI.Extensions
 
             // Ensure that changes are saved before assigning roles to users
             await context.SaveChangesAsync();
-            //
-            // // Find or create the user "uzax"
+
+            // Find or create the user "zayed"
             var user = await userManager.FindByNameAsync("zayed");
-            //
-            // if (user == null)
-            // {
-            //     user = new ApplicationUsers
-            //     {
-            //         UserName = "uzax",
-            //         Email = "uzax@example.com",
-            //         EmailConfirmed = true // Set this to false if email confirmation is needed
-            //     };
-            //
-            //     // Create the user with a password
-            //     var createUserResult = await userManager.CreateAsync(user, "DefaultPassword123!");
-            //
-            //     if (!createUserResult.Succeeded)
-            //     {
-            //         throw new Exception("Failed to create user uzax: " +
-            //             string.Join(", ", createUserResult.Errors.Select(e => e.Description)));
-            //     }
-            // }
-            //
-            // // Ensure "Admin" role is assigned to "uzax"
+            if (user == null)
+            {
+                user = new ApplicationUsers
+                {
+                    name = "zayed",
+                    UserName = "zayed",
+                    Email = "zayed@example.com",
+                    EmailConfirmed = true // Set to false if email confirmation is required
+                };
+
+                // Create the user with a password
+                var createUserResult = await userManager.CreateAsync(user, "Zz@0011");
+                if (!createUserResult.Succeeded)
+                {
+                    throw new Exception("Failed to create user zayed: " +
+                        string.Join(", ", createUserResult.Errors.Select(e => e.Description)));
+                }
+            }
+
+            // Ensure "Admin" role is assigned to "zayed"
             if (!await userManager.IsInRoleAsync(user, "Admin"))
             {
                 var addToRoleResult = await userManager.AddToRoleAsync(user, "Admin");
-            
                 if (!addToRoleResult.Succeeded)
                 {
-                    throw new Exception("Failed to assign Admin role to uzax: " +
+                    throw new Exception("Failed to assign Admin role to zayed: " +
                         string.Join(", ", addToRoleResult.Errors.Select(e => e.Description)));
                 }
             }

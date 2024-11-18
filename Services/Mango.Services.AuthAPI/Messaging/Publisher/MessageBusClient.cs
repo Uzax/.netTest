@@ -41,7 +41,7 @@ namespace Mango.Services.AuthAPI.Messaging.Publisher
 
         }
 
-        public void publishNewLoginAttempt(LoginRequestPublishDto loginRequestPublishDto)
+        public void publishAuthAttempt(LoginRequestPublishDto loginRequestPublishDto)
         {
             var message = JsonSerializer.Serialize(loginRequestPublishDto);
 

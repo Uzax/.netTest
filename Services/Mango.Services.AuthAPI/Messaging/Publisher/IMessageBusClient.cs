@@ -6,7 +6,7 @@ namespace Mango.Services.AuthAPI.Messaging.Publisher
     public interface IMessageBusClient
     {
 
-        void publishNewLoginAttempt(LoginRequestPublishDto loginRequestPublishDto);
+        void publishAuthAttempt(LoginRequestPublishDto loginRequestPublishDto);
         
 
     }

@@ -26,14 +26,26 @@ namespace Mango.Services.AuthAPI.Controller
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegistrationRequestDto registrationRequestDto)
         {
+            
+            var Publish = new LoginRequestPublishDto()
+            {
+                serviceName = "Auth.Register",
+                Time = DateTime.Now,
+                fromIP = HttpContext.Connection.RemoteIpAddress?.ToString(),
+                Username = registrationRequestDto.Username
+            }; 
+            
+            
             var errorMessage = await _authService.Register(registrationRequestDto);
             if (!string.IsNullOrEmpty(errorMessage))
             {
-                _response.IsSuccess = false;
-                _response.Message = errorMessage;
-                return Unauthorized(errorMessage);
-                
+                Publish.Message = errorMessage;
+                _messageBus.publishAuthAttempt(Publish);
+                return BadRequest(errorMessage);
             }
+            
+            Publish.Message = "New Registration Success";
+            _messageBus.publishAuthAttempt(Publish);
            
             return Ok(_response);
         }
@@ -42,9 +54,9 @@ namespace Mango.Services.AuthAPI.Controller
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequestDto loginRequestDto)
         {
-            var publushDto = new LoginRequestPublishDto()
+            var Publish = new LoginRequestPublishDto()
             {
-                serviceName = "Auth/Login",
+                serviceName = "Auth.Login",
                 Time = DateTime.Now,
                 fromIP = HttpContext.Connection.RemoteIpAddress?.ToString(),
                 Username = loginRequestDto.Username
@@ -55,8 +67,8 @@ namespace Mango.Services.AuthAPI.Controller
 
                 try
                 {
-                    publushDto.Message = "Failed Login Attempt"; 
-                    _messageBus.publishNewLoginAttempt(publushDto);
+                    Publish.Message = "Failed Login Attempt"; 
+                    _messageBus.publishAuthAttempt(Publish);
 
                 }
                 catch (Exception e)
@@ -74,8 +86,8 @@ namespace Mango.Services.AuthAPI.Controller
             
             try
             {
-                publushDto.Message = "Succesful Login Attempt"; 
-                _messageBus.publishNewLoginAttempt(publushDto);
+                Publish.Message = "Succesful Login Attempt"; 
+                _messageBus.publishAuthAttempt(Publish);
 
             }
             catch (Exception e)
